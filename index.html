@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GifTastic!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/reset.css">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <!-- Rendered buttons will get dumped here  -->
+    <div id="buttons-view"></div>
+
+    <!--------------- Form ----------------->
+    <form>
+        <div class="container1 d-flex justify-content-end">
+            <div class="form-group" id="user">
+            <label for="input"><strong>Add an animal</strong></label>
+            <input type="text" id="gif-input" class="form-control" aria-describedby="emailHelp">
+          
+            <!-- Button triggers new movie to be added -->
+            <button class="btn btn-primary" id="user-input" type="submit">Submit</button>
+            
+            <!-- Gifs will get dumped Here -->
+            <div id="gifs-view" class="d-flex justify-content-between"></div>
+            </div>
+        </div>
+
+   
+    
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="assets/javascript/app.js"></script>
+</body>
+</html>
