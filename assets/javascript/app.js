@@ -16,20 +16,21 @@ gifContainer.append(containerTitle,imageDiv);     // append title and image into
 
 
 function displaygifInfo() {         // function that loops through the ajax call 10 times to generate 10 *random* gifs
-
+    /* $("#gifs-view").empty(); */
     var gif = $(this).attr("data-name");     // "this" button that you press will be the gif
-    var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=H1yyu4os8QNVJ1Mn2kcPzpeypAeQYV1H&tag=" + gif;
+    var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" + gif;
 
-    for (var i = 0; i< numberGifs; i++) {         // loops through ajac call 10 times
+    for (var i = 0; i< numberGifs; i++) { 
     $.ajax({
         url: queryURL,
         method: "GET"
       }).then(function(response) {
+                // loops through ajac call 10 times
         docs = response.data;       // .data is the first property in the giphy object that is pulled
         console.log(docs);     // check
         generate(docs);       // after each pull, call this function to create the card for that gif
-    });
-};
+        });
+    };
 };
 
 
@@ -54,15 +55,23 @@ $("#user-input").on("click", function(event) {            // This function handl
     event.preventDefault();         // This line of code will grab the input from the textbox
 
     var gif = $("#gif-input").val().trim();         // capture the user's input
+
+    for (var i = 0; i<gifs.length; i++) {
+        if (gif === gifs[i]) {
+            return null;
+        } else {
+            renderButtons();
+        };
+    };
     
     
     gifs.push(gif);           // The gif from the textbox is then added to our array
 
     
-    renderButtons();          // Calling renderButtons which handles the processing of our gif array
+    renderButtons();         // Calling renderButtons which handles the processing of our gif array
     
     $("#gif-input").val("");         // Clears input field after each user input
-    });
+});
 
 
 $(document).on("click", ".gif", displaygifInfo);             // Adding click event listeners to all elements with a class of "gif"
@@ -72,13 +81,12 @@ renderButtons();             // Calling the renderButtons function to display th
 
 
 var generate = function(docs) {             // function to generate a card for each gif
-    
         
         var contentDiv = $("<div>");      // card container
         contentDiv.addClass("card border-secondary");           // bootstrap classes for cards
         // Append the rating to the top of the gif
         var img = $("<img>");             // image tag
-        img.addClass("card-img-top p-2 border-secondary image");         // bootstrap classes for spacing
+        img.addClass("image card-img-top p-2 border-secondary");         // bootstrap classes for spacing
         img.attr("src", docs.fixed_height_small_still_url)          // path for the gif url
         img.attr("state", "still");                 // gif will have an initial state of still
         img.attr("animated", docs.fixed_height_small_url);         // animated url
@@ -98,9 +106,11 @@ var generate = function(docs) {             // function to generate a card for e
 
 };
 
-function animation() {
-    $(".image").on("click", function() {
+
+    $(document).on("click", ".image", function() {
+        console.log("on click image");
         var animationState = $(this).attr("state");
+        console.log(animationState);
         if (animationState === "still") {
             $(this).attr("src", $(this).attr("animated"))
             $(this).attr("state", "animated");
@@ -110,5 +120,4 @@ function animation() {
             $(this).attr("state", "still");
         };
     });
-};
 
