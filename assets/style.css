@@ -1,12 +1,20 @@
-.container1 {
+form {
     margin-top: 5%;
     margin-right: 3%;
+    margin-left: 1%;
 }
 .btn {
     margin-top: 3%;
     background-color: gray;
     margin: 1% 1% 1% 1%;
 }
-img {
-    margin-top: 3%;
+
+div.card:hover {
+    background: rgb(75, 31, 233);
+    border: 1px rgb(240, 240, 240);
+}
+
+.img-fluid {
+    height: 50%;
+    width: 50%;
 }

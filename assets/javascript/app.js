@@ -1,12 +1,11 @@
 var gifs = ["Cats", "Dogs", "Frog", "NBA"];     //Default buttons 
-var query = "http://api.giphy.com/v1/gifs/search?q=ryan+gosling&api_key=H1yyu4os8QNVJ1Mn2kcPzpeypAeQYV1H";
 var numberGifs = 10;
 
 
-function displaygifInfo() {
+function displayGifimage() {
 
     var gif = $(this).attr("data-name");     // "this" button that you press will be the gif
-    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + gif + "&api_key=H1yyu4os8QNVJ1Mn2kcPzpeypAeQYV1H";
+    var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=7Rs4QaXgUVWvHB0kweSOc66Z9IzPloXF&tag=" + gif;
 
     $.ajax({
         url: queryURL,
@@ -43,46 +42,67 @@ $("#user-input").on("click", function(event) {
     // This line of code will grab the input from the textbox
     var gif = $("#gif-input").val().trim();
     
-    // The movie from the textbox is then added to our array
+    // The gif from the textbox is then added to our array
     gifs.push(gif);
 
-    // Calling renderButtons which handles the processing of our movie array
+    // Calling renderButtons which handles the processing of our gif array
     renderButtons();
     });
 
     // Adding click event listeners to all elements with a class of "gif"
-    $(document).on("click", ".gif", displaygifInfo);
+    $(document).on("click", ".gif", displayGifimage);
 
-    // Calling the renderButtons function to display the intial buttons
+    // Calling the renderButtons function to display the initial buttons
     renderButtons();
+
+    $("#gif-input").val("");
 
 
 var generate = function(docs) {
-    for(i = 0; i < numberGifs; i++) {
-    
+    for(var i = 0; i < 10; i++) {
+    displayGifimage();
         // contentdiv as a container
         var contentDiv = $("<div>");
-    
+        contentDiv.addClass("card border-secondary");
         // Append the rating to the top of the gif
-        var ratingDiv = $("<div>");
-        ratingDiv.text("Rating: " + docs[i].rating);
-    
+        var img = $("<img>");
+        img.addClass("card-img-top p-2 border-secondary image-fluid image");
+        img.attr("src", docs.fixed_height_small_still_url)
+        img.attr("state", "still");
+        img.attr("animated", docs.fixed_height_small_url);
+        img.attr("still", docs.fixed_height_small_still_url);
         // Append the gif from its URL
-        var giphyDiv = $("<img>");
-        giphyDiv.attr("src", docs[i].images.fixed_height.url);
-    
-        // Append all the divs into the contentDiv
-        contentDiv.append(ratingDiv, giphyDiv);
+        var cardBody = $("<div>");
+        cardBody.addClass("card-body")
+
+        var rating = $("<h5>");
+        rating.addClass("card-title");
+        rating.html("Rating: " + docs.rating);
+
+        cardBody.append(rating);
+
     
         // Append the contentdiv
+        contentDiv.append(img, cardBody);
         $("#gifs-view").append(contentDiv);
     };
 };
 
+function animation() {
+    $(".image").off("click");
+    $(".image").on("click", function() {
+        var animationState = $(this).attr("state");
+        if(animationState === "still") {
+            $(this).attr("src", $(this).attr("animated"))
+            $(this).attr("state", "animated");
+        }
+        else {
+            $(this).attr("src", $(this).attr("still"))
+            $(this).attr("state", "still");
+        }
+    });
+};
 
-$.ajax({
-    url: query,
-    method: "GET"
-  }).then(function(response) {
-    console.log(response);
-});
+
+
+
